@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:rickandmorty/model/character_model.dart';
+
+class ItemGrid extends StatelessWidget {
+  final Character character;
+
+  ItemGrid({@required this.character});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Color(0xff4d4669),
+                borderRadius: BorderRadius.circular(8.0)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Container(
+                color: Color(0xff4d4669),
+                child: Image.network(
+                    character.image,
+                    fit: BoxFit.fill),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  character.name,
+                  style: TextStyle(fontSize: 16.0, color: Colors.black87),
+                ),
+                Text(character.species,
+                    style: TextStyle(fontSize: 14.0, color: Colors.black54))
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
