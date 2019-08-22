@@ -46,11 +46,6 @@ class ListCharacterContent extends StatelessWidget {
                                           color: Color(0xff4d4669))))),
                           Container(width: double.infinity, height: 32.0)
                         ]);
-                        return Center(
-                            child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xff4d4669)),
-                        ));
                       }
                       return ItemGrid(character: state.list[index]);
                     })));
