@@ -7,8 +7,8 @@ class CharacterRepository {
 
   CharacterRepository({@required this.dio});
 
-  Future<List<Character>> get() async {
-    final res = await dio.get('https://rickandmortyapi.com/api/character/');
+  Future<List<Character>> get({int page = 1}) async {
+    final res = await dio.get('https://rickandmortyapi.com/api/character/', queryParameters: {'page': page});
 
     List results = res.data['results'];
 

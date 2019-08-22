@@ -19,7 +19,24 @@ class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
     if (event is Started) {
       try {
         final list = await characterRepository.get();
-        yield Loaded(list: list);
+        yield Loaded(
+            list: list, page: 1, finish: list.length < 20, loading: false);
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    if (event is Fetch) {
+      try {
+        yield (currentState as Loaded).copyWith(loading: true);
+        final newList = await characterRepository.get(page: event.page);
+        final oldList = (currentState as Loaded).list;
+        oldList.addAll(newList);
+        yield (currentState as Loaded).copyWith(
+            list: List.from(oldList),
+            page: event.page,
+            finish: List.from(oldList).length < 20,
+            loading: false);
       } catch (e) {
         print(e);
       }
