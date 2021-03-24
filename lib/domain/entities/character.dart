@@ -23,17 +23,6 @@ class Character extends Equatable {
       @required this.gender,
       @required this.image});
 
-  Character.fromJSON(json)
-      : this.id = json['id'],
-        this.name = json['name'],
-        this.episode = json['episode'],
-        this.status = json['status'],
-        this.location = json['location']['name'],
-        this.origin = json['origin']['name'],
-        this.species = json['species'],
-        this.gender = json['gender'],
-        this.image = json['image'];
-
   @override
   List<Object> get props =>
       [id, name, status, location, origin, species, gender, image];

@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
-class CharacterModel extends Equatable {
+class CharacterModel {
   final int id;
   final String name;
   final List<dynamic> episode;
@@ -11,17 +8,6 @@ class CharacterModel extends Equatable {
   final String species;
   final String gender;
   final String image;
-
-  CharacterModel(
-      {@required this.id,
-      @required this.name,
-      @required this.episode,
-      @required this.status,
-      @required this.location,
-      @required this.origin,
-      @required this.species,
-      @required this.gender,
-      @required this.image});
 
   CharacterModel.fromJSON(json)
       : this.id = json['id'],
@@ -33,8 +19,4 @@ class CharacterModel extends Equatable {
         this.species = json['species'],
         this.gender = json['gender'],
         this.image = json['image'];
-
-  @override
-  List<Object> get props =>
-      [id, name, status, location, origin, species, gender, image];
 }
