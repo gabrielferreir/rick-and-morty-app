@@ -13,6 +13,7 @@ class ListCharacterContent extends StatelessWidget {
     return BlocBuilder<ListCharacterBloc, ListCharacterState>(
         builder: (context, state) {
       if (state is Loading) return Center(child: CircularProgressIndicator());
+      if (state is WithError) return Center(child: Text(state.message));
       if (state is Loaded)
         return Container(
             decoration: BoxDecoration(

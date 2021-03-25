@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
+import 'package:rickandmorty/presenter/character/character_page.dart';
 
 class ItemGrid extends StatelessWidget {
   final Character character;
@@ -10,10 +11,10 @@ class ItemGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => CharacterPage(character: character)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CharacterPage(character: character)));
       },
       child: Column(children: <Widget>[
         Expanded(
