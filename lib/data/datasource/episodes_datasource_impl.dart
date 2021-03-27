@@ -10,12 +10,16 @@ class EpisodesDatasourceImpl implements EpisodesDatasource {
 
   EpisodesDatasourceImpl({@required this.dio});
 
-  Future<EpisodesModel> get({int id}) async {
+  Future<EpisodesModel> get({
+    @required int id,
+  }) async {
     final res = await dio.get('/episode/$id');
     Map result = res.data;
     final characters = (result['characters'] as List);
     final list = characters.map((item) async {
-      final character = await dio.get(item);
+      final url = item.toString().split('/');
+      final id = url[url.length - 1];
+      final character = await dio.get('/character/$id');
       return CharacterModel.fromJSON(character.data);
     }).toList();
     final Future<List<CharacterModel>> listCharacterWait = Future.wait(list);

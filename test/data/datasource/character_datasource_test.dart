@@ -14,7 +14,7 @@ void main() {
   final characterDatasource = CharacterDatasourceImpl(dio: dioMock);
   group('CharacterDatasource', () {
     test('Should be return a list of characters', () async {
-      final file = new File('test/data/mock/character.json');
+      final file = new File('test/data/mock/characters.json');
       final json = jsonDecode(await file.readAsString());
 
       when(dioMock.get(any, queryParameters: anyNamed("queryParameters")))

@@ -19,7 +19,7 @@ void main() {
   );
   group('CharacterRepository', () {
     test('Should be return a list of characters', () async {
-      final file = new File('test/data/mock/character.json');
+      final file = new File('test/data/mock/characters.json');
       final json = jsonDecode(await file.readAsString());
 
       when(characterDatasourceMock.get()).thenAnswer(
