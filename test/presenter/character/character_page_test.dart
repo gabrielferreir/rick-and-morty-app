@@ -53,7 +53,7 @@ void main() {
   setUp(() {
     episodesBloc = EpisodesBlocMock();
     GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
-    GetIt.I.registerSingleton<EpisodesBloc>(episodesBloc);
+    GetIt.I.registerFactory<EpisodesBloc>(() => episodesBloc);
   });
 
   tearDown(() {

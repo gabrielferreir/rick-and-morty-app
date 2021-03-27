@@ -18,14 +18,14 @@ Future<void> configure() async {
 
   GetIt.I.registerSingleton<BaseCacheManager>(DefaultCacheManager());
 
-  GetIt.I.registerSingleton<ListCharacterBloc>(ListCharacterBloc(
+  GetIt.I.registerFactory<ListCharacterBloc>(() => ListCharacterBloc(
       searchCharactersUseCase: SearchCharactersUseCaseImpl(
           characterRepository: CharacterRepositoryImpl(
               characterMapper: CharacterMapper(),
               characterDatasource:
                   CharacterDatasourceImpl(dio: GetIt.I.get<Dio>())))));
 
-  GetIt.I.registerSingleton<EpisodesBloc>(EpisodesBloc(
+  GetIt.I.registerFactory<EpisodesBloc>(() => EpisodesBloc(
       searchEpisodeUseCase: SearchEpisodeUseCaseImpl(
           episodesRepository: EpisodesRepositoryImpl(
               episodesMapper:
