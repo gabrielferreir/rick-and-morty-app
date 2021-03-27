@@ -21,7 +21,7 @@ class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
         final episodes = await this.searchEpisodeUseCase.call(id: event.id);
         yield Loaded(episodes: episodes);
       } catch (e) {
-        print(e);
+        yield WithError(message: 'Internal server error');
       }
     }
   }
