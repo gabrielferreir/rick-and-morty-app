@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'list_character_bloc.dart';
 import 'list_character_content.dart';
 import 'list_character_event.dart';
 
 class ListCharacterPage extends StatelessWidget {
-  final ListCharacterBloc listCharacterBloc;
-
-  ListCharacterPage({@required this.listCharacterBloc});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +21,8 @@ class ListCharacterPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0.0),
         body: BlocProvider(
-          create: (BuildContext context) => listCharacterBloc..add(Started()),
+          create: (BuildContext context) =>
+              GetIt.I.get<ListCharacterBloc>()..add(Started()),
           child: ListCharacterContent(),
         ));
   }

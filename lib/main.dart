@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
 
 import 'configure.dart';
 import 'presenter/list_character/list_character_page.dart';
@@ -14,8 +12,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: ListCharacterPage(
-            listCharacterBloc: GetIt.I.get<ListCharacterBloc>()));
+    return MaterialApp(home: ListCharacterPage());
   }
 }
