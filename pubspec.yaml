@@ -18,6 +18,8 @@ dependencies:
   flutter_bloc: ^7.0.0
   shimmer: ^1.1.2
   cached_network_image: ^2.5.1
+  flutter_cache_manager: ^2.1.0
+  get_it: ^6.0.0
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ const _loadingKey = Key('list_character_loading');
 const _errorMessageKey = Key('list_character_errors_message');
 const _contentLoadedKey = Key('list_character_container_loaded');
 const _gridListKey = Key('list_character_grid_list');
-// const _decrementButtonKey = Key('counterView_decrement_floatingActionButton');
+
 final rick = Character(
     id: 1,
     name: 'Rick Sanchez',

@@ -1,20 +1,21 @@
-import 'package:dio/dio.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/data/datasource/episodes_datasource_impl.dart';
-import 'package:rickandmorty/data/mapper/character_mapper.dart';
-import 'package:rickandmorty/data/mapper/episodes_mapper.dart';
-import 'package:rickandmorty/data/repository/episodes_repository_impl.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/domain/usecase/search_episode.dart';
-import 'package:rickandmorty/presenter/episodes/episodes_page.dart';
+import 'package:rickandmorty/presenter/episodes/episodes_bloc.dart';
 import 'package:rickandmorty/presenter/shared/item_header.dart';
 import 'package:rickandmorty/presenter/shared/line.dart';
-import 'package:rickandmorty/util/constraints.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'episode_card.dart';
 
 class CharacterPage extends StatelessWidget {
   final Character character;
 
-  CharacterPage({@required this.character});
+  CharacterPage({
+    @required this.character,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,144 +23,91 @@ class CharacterPage extends StatelessWidget {
         backgroundColor: Color(0xff4d4669),
         body: SingleChildScrollView(
             child: Column(children: <Widget>[
-          AppBar(elevation: 0.0, backgroundColor: Colors.transparent),
-          Container(
-              padding:
+              AppBar(elevation: 0.0, backgroundColor: Colors.transparent),
+              Container(
+                  padding:
                   const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-              width: double.infinity,
-              child: Card(
-                  child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              CircleAvatar(
-                                  radius: 32.0,
-                                  backgroundImage:
-                                      NetworkImage(character.image)),
-                              Padding(
-                                  padding: const EdgeInsets.only(left: 16.0),
-                                  child: Column(
-                                      crossAxisAlignment:
+                  width: double.infinity,
+                  child: Card(
+                      child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(children: <Widget>[
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      height: 64,
+                                      width: 64,
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              32.0),
+                                          child: CachedNetworkImage(
+                                              cacheManager: GetIt.instance
+                                                  .get<BaseCacheManager>(),
+                                              imageUrl: character.image,
+                                              placeholder: (context, url) =>
+                                                  Shimmer.fromColors(
+                                                      baseColor: Colors
+                                                          .grey[300],
+                                                      highlightColor:
+                                                      Colors.grey[100],
+                                                      child: Container(
+                                                          color: Colors.white)),
+                                              errorWidget: (context, url,
+                                                  error) =>
+                                                  Icon(Icons.error,
+                                                      key: Key(
+                                                          'character_page_image_error'))))),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0),
+                                      child: Column(
+                                          crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(character.name,
-                                            style: TextStyle(
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.w600)),
-                                        Text(character.species,
-                                            style: TextStyle(fontSize: 16.0))
-                                      ]))
-                            ]),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Divider(),
-                        ),
-                        Container(
-                            child: Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                    mainAxisAlignment:
+                                          children: <Widget>[
+                                            Text(character.name,
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight
+                                                        .w600)),
+                                            Text(character.species,
+                                                style: TextStyle(
+                                                    fontSize: 16.0))
+                                          ]))
+                                ]),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Divider(),
+                            ),
+                            Container(
+                                child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Row(
+                                        mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      ItemHeader(
-                                          title: 'Status', subtitle: 'Alive'),
-                                      ItemHeader(
-                                          title: 'Gender',
-                                          subtitle: character.gender),
-                                      ItemHeader(
-                                          title: 'Episodes',
-                                          subtitle: character.episode.length
-                                              .toString())
-                                    ])))
-                      ])))),
-          Line(
-              title: 'Location',
-              subtitle: character.location,
-              icon: Icons.location_on),
-          Line(
-              title: 'Origin',
-              subtitle: character.origin,
-              icon: Icons.location_city),
-          Episodes(episodes: character.episode)
-        ])));
-  }
-}
-
-class Episodes extends StatelessWidget {
-  final List episodes;
-  static final RegExp numberRegExp = RegExp(r'\d+');
-
-  Episodes({@required this.episodes});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(right: 16.0, left: 16.0, top: 12.0),
-        width: double.infinity,
-        child: Card(
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 0.0, left: 0.0),
-                child: Column(children: <Widget>[
-                  Row(children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-                        child: Icon(Icons.movie,
-                            color: Color(0xff4d4669), size: 32.0)),
-                    Text('Episodios',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87))
-                  ]),
-                  Column(
-                      children: episodes
-                          .map((item) => ListTile(
-                              trailing: IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(32.0),
-                                          topRight: Radius.circular(32.0),
-                                        )),
-                                        elevation: 2.0,
-                                        context: context,
-                                        builder: (context) => Container(
-                                              height: 220.0,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      child: EpisodesPage(
-                                                    episode: int.parse(
-                                                        numberRegExp
-                                                            .stringMatch(item)),
-                                                    searchEpisodeUseCase: SearchEpisodeUseCaseImpl(
-                                                        episodesRepository: EpisodesRepositoryImpl(
-                                                            episodesMapper:
-                                                                EpisodesMapper(
-                                                                    characterMapper:
-                                                                        CharacterMapper()),
-                                                            episodesDatasource:
-                                                                EpisodesDatasourceImpl(
-                                                                    dio: Dio(BaseOptions(
-                                                                        baseUrl:
-                                                                            kUrl))))),
-                                                  ))
-                                                ],
-                                              ),
-                                            ));
-                                  }),
-                              title: Text(
-                                'Episodio ${numberRegExp.stringMatch(item)}',
-                                style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w500),
-                              )))
-                          .toList())
-                ]))));
+                                        children: <Widget>[
+                                          ItemHeader(
+                                              title: 'Status',
+                                              subtitle: 'Alive'),
+                                          ItemHeader(
+                                              title: 'Gender',
+                                              subtitle: character.gender),
+                                          ItemHeader(
+                                              title: 'Episodes',
+                                              subtitle: character.episode.length
+                                                  .toString())
+                                        ])))
+                          ])))),
+              Line(
+                  title: 'Location',
+                  subtitle: character.location,
+                  icon: Icons.location_on),
+              Line(
+                  title: 'Origin',
+                  subtitle: character.origin,
+                  icon: Icons.location_city),
+              EpisodesCard(episodes: character.episode,
+                  episodesBloc: GetIt.I.get<EpisodesBloc>())
+            ])));
   }
 }
