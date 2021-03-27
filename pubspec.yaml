@@ -16,6 +16,8 @@ dependencies:
   meta:
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
+  shimmer: ^1.1.2
+  cached_network_image: ^2.5.1
 
 dev_dependencies:
   flutter_test:

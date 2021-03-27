@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rickandmorty/data/datasource/character_datasource_impl.dart';
 import 'package:rickandmorty/data/mapper/character_mapper.dart';
 import 'package:rickandmorty/domain/usecase/search_characters.dart';
+import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
 import 'package:rickandmorty/util/constraints.dart';
 
 import 'data/repository/character_repository_impl.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: ListCharacterPage(
+            listCharacterBloc: ListCharacterBloc(
       searchCharactersUseCase: searchCharactersUseCase,
-    ));
+    )));
   }
 }

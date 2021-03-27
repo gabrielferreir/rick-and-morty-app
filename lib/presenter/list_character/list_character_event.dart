@@ -1,12 +1,22 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-@immutable
-abstract class ListCharacterEvent {}
+abstract class ListCharacterEvent extends Equatable {
+  const ListCharacterEvent();
 
-class Started extends ListCharacterEvent {}
+  @override
+  List<Object> get props => [];
+}
+
+class Started extends ListCharacterEvent {
+  const Started();
+}
 
 class Fetch extends ListCharacterEvent {
   final int page;
 
-  Fetch({@required this.page});
+  const Fetch({@required this.page});
+
+  @override
+  List<Object> get props => [page];
 }

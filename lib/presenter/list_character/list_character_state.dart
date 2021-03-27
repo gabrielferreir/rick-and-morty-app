@@ -26,9 +26,9 @@ class Loaded extends Equatable implements ListCharacterState {
 
   Loaded(
       {@required this.list,
-      @required this.finish,
-      @required this.loading,
-      @required this.page});
+      this.finish = false,
+      this.loading = false,
+      this.page = 1});
 
   @override
   List get props => [list, finish, loading, page];
