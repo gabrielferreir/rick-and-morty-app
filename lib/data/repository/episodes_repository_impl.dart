@@ -13,7 +13,9 @@ class EpisodesRepositoryImpl implements EpisodesRepository {
     @required this.episodesMapper,
   });
 
-  Future<Episodes> get({int id}) async {
+  Future<Episodes> get({
+    @required int id,
+  }) async {
     final episodesModel = await episodesDatasource.get(id: id);
     return episodesMapper.handle(episodesModel);
   }
