@@ -1,0 +1,31 @@
+name: rickandmorty
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  dio: ^3.0.10
+  equatable:
+  meta:
+  bloc: ^7.0.0
+  flutter_bloc: ^7.0.0
+  shimmer: ^1.1.2
+  cached_network_image: ^2.5.1
+  flutter_cache_manager: ^2.1.0
+  get_it: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mockito: ^4.1.1
+  test: ^1.16.0
+  bloc_test: ^8.0.0
+
+flutter:
+  uses-material-design: true
