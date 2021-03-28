@@ -1,6 +1,9 @@
 ## Rick And Morty
 
 <img src="https://badgen.net/badge/coverage/100%25/green?icon=github" />
+<img src="https://badgen.net/badge/null-safety/enable/green?icon=github" />
+
+
 
 ## Demo 💻
 
