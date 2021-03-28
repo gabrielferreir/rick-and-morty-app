@@ -5,12 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/presenter/character/character_page.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_bloc.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_event.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_state.dart';
+import 'package:rickandmorty/presenter/shared/item_grid.dart';
 
 import '../../fake_cache_manager.dart';
+import '../../image_data.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
@@ -35,8 +36,8 @@ final rick = Character(
       "https://rickandmortyapi.com/api/episode/1",
     ],
     image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg');
-final _episodeCardKey =
-    Key('episode_card_ep_https://rickandmortyapi.com/api/episode/1');
+final _imageErrorKey = Key('item_grid_image_error');
+final _inkwellKey = Key('item_grid_inkwell');
 
 void main() {
   FakeCacheManager cacheManager;
@@ -59,26 +60,30 @@ void main() {
   tearDown(() {
     GetIt.I.unregister<BaseCacheManager>();
     GetIt.I.unregister<EpisodesBloc>();
-    PaintingBinding.instance?.imageCache?.clear();
-    PaintingBinding.instance?.imageCache?.clearLiveImages();
   });
 
-  group('CharacterPage', () {
-    testWidgets('Render CharacterPage', (tester) async {
-      await tester
-          .pumpWidget(MaterialApp(home: CharacterPage(character: rick)));
-      expect(find.byType(CharacterPage), findsOneWidget);
+  group('ItemGrid', () {
+    testWidgets('Render ItemGrid', (tester) async {
+      await tester.pumpWidget(MaterialApp(home: ItemGrid(character: rick)));
+      expect(find.byType(ItemGrid), findsOneWidget);
     });
 
-    testWidgets('Should open bottom sheet', (tester) async {
+    testWidgets('Render CharacterPage image with error', (tester) async {
+      cacheManager.throwsNotFound(rick.image);
+      await tester.pumpWidget(MaterialApp(home: ItemGrid(character: rick)));
+      await tester.pump();
+      expect(find.byKey(_imageErrorKey), findsOneWidget);
+    });
+
+    testWidgets('Should be navigate to character', (tester) async {
       final mockObserver = MockNavigatorObserver();
+      cacheManager.returns(rick.image, kTransparentImage);
       await tester.pumpWidget(MaterialApp(
-        home: CharacterPage(character: rick),
+        home: ItemGrid(character: rick),
         navigatorObservers: [mockObserver],
       ));
-      expect(find.byKey(_episodeCardKey), findsOneWidget);
-      await tester.tap(find.byKey(_episodeCardKey));
-      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(_inkwellKey));
+      await tester.pump();
       verify(() => mockObserver.didPush(any(), any())).called(2);
     });
   });

@@ -12,7 +12,7 @@ import '../list_character/list_character_content_test.dart';
 
 class SearchEpisodeUseCaseMock extends Mock implements SearchEpisodeUseCase {}
 
-final episode = Episodes(
+final episodeMock = Episodes(
     id: 1, episode: '1', name: 'Nome', list: rick20, airDate: '23/10/2018');
 
 void main() {
@@ -35,11 +35,11 @@ void main() {
       'Should search episode',
       build: () {
         when(searchEpisodeUseCaseMock.call(id: anyNamed('id')))
-            .thenAnswer((_) async => episode);
+            .thenAnswer((_) async => episodeMock);
         return episodesBloc;
       },
       act: (bloc) async => bloc..add(Started(id: 1)),
-      expect: () => [Loaded(episodes: episode)],
+      expect: () => [Loaded(episodes: episodeMock)],
     );
 
     blocTest('Should return error when search episode',

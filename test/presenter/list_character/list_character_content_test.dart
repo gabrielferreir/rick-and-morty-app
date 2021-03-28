@@ -1,13 +1,17 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_content.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_event.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_state.dart';
+
+import '../../fake_cache_manager.dart';
 
 class ListCharacterBlocMock
     extends MockBloc<ListCharacterEvent, ListCharacterState>
@@ -99,6 +103,7 @@ final rick20 = [
 ];
 
 void main() {
+  FakeCacheManager cacheManager;
   ListCharacterBloc listCharacterBlocMock;
 
   setUpAll(() {
@@ -107,7 +112,13 @@ void main() {
   });
 
   setUp(() {
+    cacheManager = FakeCacheManager();
     listCharacterBlocMock = ListCharacterBlocMock();
+    GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
+  });
+
+  tearDown(() {
+    GetIt.I.unregister<BaseCacheManager>();
   });
 
   group('ListCharacterContent', () {
@@ -146,7 +157,7 @@ void main() {
       expect(find.byKey(_contentLoadedKey), findsOneWidget);
     });
 
-    testWidgets('render loaded with a list 2', (tester) async {
+    testWidgets('should call load more', (tester) async {
       when(() => listCharacterBlocMock.state).thenReturn(Loaded(
         list: rick20,
         finish: false,

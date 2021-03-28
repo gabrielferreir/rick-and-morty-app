@@ -1,11 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:get_it/get_it.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
+import 'package:rickandmorty/presenter/shared/clip_image.dart';
 import 'package:rickandmorty/presenter/shared/item_header.dart';
 import 'package:rickandmorty/presenter/shared/line.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'episode_card.dart';
 
@@ -34,26 +31,7 @@ class CharacterPage extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                  height: 64,
-                                  width: 64,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(32.0),
-                                      child: CachedNetworkImage(
-                                          cacheManager: GetIt.instance
-                                              .get<BaseCacheManager>(),
-                                          imageUrl: character.image,
-                                          placeholder: (context, url) =>
-                                              Shimmer.fromColors(
-                                                  baseColor: Colors.grey[300],
-                                                  highlightColor:
-                                                      Colors.grey[100],
-                                                  child: Container(
-                                                      color: Colors.white)),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error,
-                                                  key: Key(
-                                                      'character_page_image_error'))))),
+                              ClipImage(url: character.image),
                               Padding(
                                   padding: const EdgeInsets.only(left: 16.0),
                                   child: Column(
@@ -69,9 +47,8 @@ class CharacterPage extends StatelessWidget {
                                       ]))
                             ]),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Divider(),
-                        ),
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Divider()),
                         Container(
                             child: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
