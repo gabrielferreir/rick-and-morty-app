@@ -8,18 +8,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_content.dart';
-import 'package:rickandmorty/presenter/list_character/list_character_event.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_state.dart';
 
 import '../../fake_cache_manager.dart';
 
-class ListCharacterBlocMock
-    extends MockBloc<ListCharacterEvent, ListCharacterState>
-    implements ListCharacterBloc {}
+class ListCharacterBlocMock extends MockCubit<ListCharacterState>
+    implements ListCharacterCubit {}
 
 class ListCharacterStateMock extends Fake implements ListCharacterState {}
-
-class ListCharacterEventMock extends Fake implements ListCharacterEvent {}
 
 const _loadingKey = Key('list_character_loading');
 const _errorMessageKey = Key('list_character_errors_message');
@@ -104,16 +100,15 @@ final rick20 = [
 
 void main() {
   late FakeCacheManager cacheManager;
-  late ListCharacterBloc listCharacterBlocMock;
+  late ListCharacterCubit listCharacterCubit;
 
   setUpAll(() {
-    registerFallbackValue<ListCharacterEvent>(ListCharacterEventMock());
     registerFallbackValue<ListCharacterState>(ListCharacterStateMock());
   });
 
   setUp(() {
     cacheManager = FakeCacheManager();
-    listCharacterBlocMock = ListCharacterBlocMock();
+    listCharacterCubit = ListCharacterBlocMock();
     GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
   });
 
@@ -123,50 +118,51 @@ void main() {
 
   group('ListCharacterContent', () {
     testWidgets('render loading', (tester) async {
-      when(() => listCharacterBlocMock.state).thenReturn(Loading());
+      when(() => listCharacterCubit.state)
+          .thenReturn(ListCharacterState(isLoading: true));
       await tester.pumpWidget(MaterialApp(
           home: BlocProvider.value(
-              value: listCharacterBlocMock, child: ListCharacterContent())));
+              value: listCharacterCubit, child: ListCharacterContent())));
       expect(find.byKey(_loadingKey), findsOneWidget);
     });
 
     testWidgets('render with error', (tester) async {
-      when(() => listCharacterBlocMock.state)
-          .thenReturn(WithError(message: ''));
+      when(() => listCharacterCubit.state)
+          .thenReturn(ListCharacterState(message: ''));
       await tester.pumpWidget(MaterialApp(
           home: BlocProvider.value(
-              value: listCharacterBlocMock, child: ListCharacterContent())));
+              value: listCharacterCubit, child: ListCharacterContent())));
       expect(find.byKey(_errorMessageKey), findsOneWidget);
     });
 
     testWidgets('render loaded empty list', (tester) async {
-      when(() => listCharacterBlocMock.state)
-          .thenReturn(Loaded(list: [], finish: false, loading: false, page: 1));
+      when(() => listCharacterCubit.state).thenReturn(
+          ListCharacterState(list: [], finish: false, loading: false, page: 1));
       await tester.pumpWidget(MaterialApp(
           home: BlocProvider.value(
-              value: listCharacterBlocMock, child: ListCharacterContent())));
+              value: listCharacterCubit, child: ListCharacterContent())));
       expect(find.byKey(_contentLoadedKey), findsOneWidget);
     });
 
     testWidgets('render loaded with a list', (tester) async {
-      when(() => listCharacterBlocMock.state)
-          .thenReturn(Loaded(list: [rick], finish: true));
+      when(() => listCharacterCubit.state)
+          .thenReturn(ListCharacterState(list: [rick], finish: true));
       await tester.pumpWidget(MaterialApp(
           home: BlocProvider.value(
-              value: listCharacterBlocMock, child: ListCharacterContent())));
+              value: listCharacterCubit, child: ListCharacterContent())));
       expect(find.byKey(_contentLoadedKey), findsOneWidget);
     });
 
     testWidgets('should call load more', (tester) async {
-      when(() => listCharacterBlocMock.state).thenReturn(Loaded(
+      when(() => listCharacterCubit.state).thenReturn(ListCharacterState(
         list: rick20,
         finish: false,
       ));
       await tester.pumpWidget(MaterialApp(
           home: BlocProvider.value(
-              value: listCharacterBlocMock, child: ListCharacterContent())));
+              value: listCharacterCubit, child: ListCharacterContent())));
       await tester.drag(find.byKey(_gridListKey), const Offset(0.0, -4110));
-      verify(() => listCharacterBlocMock.add(const Fetch(page: 2))).called(1);
+      verify(() => listCharacterCubit.fetch(page: 2)).called(1);
     });
   });
 }

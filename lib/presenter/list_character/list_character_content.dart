@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../shared/item_grid.dart';
+
 import 'list_character_bloc.dart';
-import 'list_character_event.dart';
 import 'list_character_state.dart';
 
 class ListCharacterContent extends StatefulWidget {
@@ -17,16 +17,15 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
   final ScrollController _scrollController = ScrollController();
 
   void scrollEvent() {
-    final state = BlocProvider.of<ListCharacterBloc>(context).state;
-    if (state is Loaded && !state.loading && !state.finish) {
+    final state = BlocProvider.of<ListCharacterCubit>(context).state;
+    if (!state.loading && !state.finish) {
       final isLoading = state.loading;
       final page = state.page;
       var triggerFetchMoreSize =
           0.9 * _scrollController.position.maxScrollExtent;
       if (_scrollController.position.pixels > triggerFetchMoreSize) {
         if (!isLoading) {
-          BlocProvider.of<ListCharacterBloc>(context)
-              .add(Fetch(page: page + 1));
+          BlocProvider.of<ListCharacterCubit>(context)..fetch(page: page + 1);
         }
       }
     }
@@ -46,14 +45,14 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListCharacterBloc, ListCharacterState>(
+    return BlocBuilder<ListCharacterCubit, ListCharacterState>(
         builder: (context, state) {
-      if (state is WithError) {
+      if (state.message != null) {
         return Center(
-            child:
-                Text(state.message, key: Key('list_character_errors_message')));
+            child: Text(state.message!,
+                key: Key('list_character_errors_message')));
       }
-      if (state is Loaded) {
+      if (!state.isLoading && state.message == null) {
         return Container(
             key: Key('list_character_container_loaded'),
             decoration: BoxDecoration(

@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 
 import 'list_character_bloc.dart';
 import 'list_character_content.dart';
-import 'list_character_event.dart';
 
 class ListCharacterPage extends StatelessWidget {
   @override
@@ -21,8 +20,7 @@ class ListCharacterPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0.0),
         body: BlocProvider(
-          create: (context) => GetIt.I.get<ListCharacterBloc>()..add(Started()),
-          child: ListCharacterContent(),
-        ));
+            create: (context) => GetIt.I.get<ListCharacterCubit>()..started(),
+            child: ListCharacterContent()));
   }
 }

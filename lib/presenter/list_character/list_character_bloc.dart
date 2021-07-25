@@ -1,47 +1,40 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import '../../domain/usecase/search_characters.dart';
 
-import 'list_character_event.dart';
 import 'list_character_state.dart';
 
-class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
+class ListCharacterCubit extends Cubit<ListCharacterState> {
   final SearchCharactersUseCase searchCharactersUseCase;
 
-  ListCharacterBloc({required this.searchCharactersUseCase}) : super(Loading());
+  ListCharacterCubit({required this.searchCharactersUseCase})
+      : super(ListCharacterState(isLoading: true));
 
-  @override
-  Stream<ListCharacterState> mapEventToState(
-    ListCharacterEvent event,
-  ) async* {
-    if (event is Started) {
-      try {
-        final list = await searchCharactersUseCase.call();
-        yield Loaded(
-            list: list, page: 1, finish: list.length < 20, loading: false);
-      } on DioError catch (e) {
-        yield WithError(message: e.response!.data);
-      } on Exception {
-        yield WithError(message: 'Internal server error');
-      }
+  void started() async {
+    try {
+      emit(ListCharacterState(isLoading: true));
+      final list = await searchCharactersUseCase.call();
+      emit(ListCharacterState(
+          list: list, page: 1, finish: list.length < 20, loading: false));
+    } on DioError catch (e) {
+      emit(ListCharacterState(message: e.response!.data));
+    } on Exception {
+      emit(ListCharacterState(message: 'Internal server error'));
     }
+  }
 
-    if (event is Fetch) {
-      try {
-        yield (state as Loaded).copyWith(loading: true);
-        final newList = await searchCharactersUseCase.call(page: event.page);
-        final oldList = (state as Loaded).list;
-        yield (state as Loaded).copyWith(list: [
-          ...oldList,
-          ...newList,
-        ], page: event.page, finish: newList.length < 20, loading: false);
-      } on DioError catch (e) {
-        yield WithError(message: e.response!.data);
-      } on Exception {
-        yield WithError(message: 'Internal server error');
-      }
+  void fetch({required int page}) async {
+    try {
+      emit(state.copyWith(loading: true));
+      final newList = await searchCharactersUseCase.call(page: page);
+      emit(state.copyWith(list: [
+        ...state.list,
+        ...newList,
+      ], page: page, finish: newList.length < 20, loading: false));
+    } on DioError catch (e) {
+      emit(ListCharacterState(message: e.response!.data));
+    } on Exception {
+      emit(ListCharacterState(message: 'Internal server error'));
     }
   }
 }

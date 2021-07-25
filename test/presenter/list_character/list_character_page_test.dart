@@ -4,46 +4,43 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
-import 'package:rickandmorty/presenter/list_character/list_character_event.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_page.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_state.dart';
 
-class ListCharacterBlocMock
-    extends MockBloc<ListCharacterEvent, ListCharacterState>
-    implements ListCharacterBloc {}
+class ListCharacterCubitMock extends MockCubit<ListCharacterState>
+    implements ListCharacterCubit {}
 
 class ListCharacterStateMock extends Fake implements ListCharacterState {}
 
-class ListCharacterEventMock extends Fake implements ListCharacterEvent {}
-
 void main() {
-  late ListCharacterBloc listCharacterBloc;
+  late ListCharacterCubit listCharacterCubit;
 
   setUpAll(() {
-    registerFallbackValue<ListCharacterEvent>(ListCharacterEventMock());
     registerFallbackValue<ListCharacterState>(ListCharacterStateMock());
   });
 
   setUp(() {
-    listCharacterBloc = ListCharacterBlocMock();
-    GetIt.I.registerFactory<ListCharacterBloc>(() => listCharacterBloc);
+    listCharacterCubit = ListCharacterCubitMock();
+    GetIt.I.registerFactory<ListCharacterCubit>(() => listCharacterCubit);
   });
 
   tearDown(() {
-    GetIt.I.unregister<ListCharacterBloc>();
+    GetIt.I.unregister<ListCharacterCubit>();
   });
 
   group('ListCharacterPage', () {
     testWidgets('Render ListCharacterPage', (tester) async {
-      when(() => listCharacterBloc.state).thenReturn(Loaded(list: []));
+      when(() => listCharacterCubit.state)
+          .thenReturn(ListCharacterState(isLoading: true));
       await tester.pumpWidget(MaterialApp(home: ListCharacterPage()));
       expect(find.byType(ListCharacterPage), findsOneWidget);
     });
 
     testWidgets('Should be call event Started', (tester) async {
-      when(() => listCharacterBloc.state).thenReturn(Loaded(list: []));
+      when(() => listCharacterCubit.state)
+          .thenReturn(ListCharacterState(isLoading: true));
       await tester.pumpWidget(MaterialApp(home: ListCharacterPage()));
-      verify(() => listCharacterBloc.add(const Started())).called(1);
+      verify(() => listCharacterCubit.started()).called(1);
     });
   });
 }
