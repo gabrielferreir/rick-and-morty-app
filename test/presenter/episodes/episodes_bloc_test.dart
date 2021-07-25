@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/episodes.dart';
 import 'package:rickandmorty/domain/usecase/search_episode.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_bloc.dart';
@@ -34,7 +34,7 @@ void main() {
     blocTest(
       'Should search episode',
       build: () {
-        when(searchEpisodeUseCaseMock.call(id: anyNamed('id')))
+        when(() => searchEpisodeUseCaseMock.call(id: any(named: 'id')))
             .thenAnswer((_) async => episodeMock);
         return episodesBloc;
       },
@@ -44,8 +44,12 @@ void main() {
 
     blocTest('Should return error when search episode',
         build: () {
-          when(searchEpisodeUseCaseMock.call(id: anyNamed('id'))).thenThrow(
-              (_) async => DioError(response: Response(statusCode: 500)));
+          when(() => searchEpisodeUseCaseMock.call(id: any(named: 'id')))
+              .thenThrow(DioError(
+                  response: Response(
+                      statusCode: 500,
+                      requestOptions: RequestOptions(path: '')),
+                  requestOptions: RequestOptions(path: '')));
           return episodesBloc;
         },
         act: (bloc) async => bloc..add(Started(id: 1)),

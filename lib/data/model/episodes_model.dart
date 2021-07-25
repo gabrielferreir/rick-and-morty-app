@@ -1,4 +1,4 @@
-import 'package:rickandmorty/data/model/character_model.dart';
+import 'character_model.dart';
 
 class EpisodesModel {
   final int id;
@@ -8,9 +8,9 @@ class EpisodesModel {
   List<CharacterModel> list;
 
   EpisodesModel.fromJSON(json)
-      : this.id = json['id'],
-        this.name = json['name'],
-        this.episode = json['episode'],
-        this.airDate = json['air_date'],
-        this.list = json['list'];
+      : id = json['id'],
+        name = json['name'],
+        episode = json['episode'],
+        airDate = json['air_date'],
+        list = json['list'];
 }

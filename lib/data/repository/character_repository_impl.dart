@@ -1,8 +1,9 @@
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/data/datasource/character_datasource.dart';
-import 'package:rickandmorty/data/mapper/character_mapper.dart';
-import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/domain/repository/character_repository.dart';
+
+import '../../domain/entities/character.dart';
+import '../../domain/repository/character_repository.dart';
+import '../datasource/character_datasource.dart';
+import '../mapper/character_mapper.dart';
 
 class CharacterRepositoryImpl implements CharacterRepository {
   final CharacterDatasource characterDatasource;
@@ -15,6 +16,6 @@ class CharacterRepositoryImpl implements CharacterRepository {
 
   Future<List<Character>> get({int page = 1}) async {
     final characters = await characterDatasource.get(page: page);
-    return characters.map((e) => characterMapper.handle(e)).toList();
+    return characters.map(characterMapper.handle).toList();
   }
 }

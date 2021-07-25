@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rickandmorty/presenter/shared/item_grid.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../shared/item_grid.dart';
 import 'list_character_bloc.dart';
 import 'list_character_event.dart';
 import 'list_character_state.dart';
@@ -14,7 +14,7 @@ class ListCharacterContent extends StatefulWidget {
 }
 
 class _ListCharacterContentState extends State<ListCharacterContent> {
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   void scrollEvent() {
     final state = BlocProvider.of<ListCharacterBloc>(context).state;
@@ -24,9 +24,10 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
       var triggerFetchMoreSize =
           0.9 * _scrollController.position.maxScrollExtent;
       if (_scrollController.position.pixels > triggerFetchMoreSize) {
-        if (!isLoading)
+        if (!isLoading) {
           BlocProvider.of<ListCharacterBloc>(context)
               .add(Fetch(page: page + 1));
+        }
       }
     }
   }
@@ -47,11 +48,12 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<ListCharacterBloc, ListCharacterState>(
         builder: (context, state) {
-      if (state is WithError)
+      if (state is WithError) {
         return Center(
             child:
                 Text(state.message, key: Key('list_character_errors_message')));
-      if (state is Loaded)
+      }
+      if (state is Loaded) {
         return Container(
             key: Key('list_character_container_loaded'),
             decoration: BoxDecoration(
@@ -88,6 +90,7 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
                             return ItemGrid(character: state.list[index]);
                           }))
                 ])));
+      }
       return Center(
           child: CircularProgressIndicator(key: Key('list_character_loading')));
     });

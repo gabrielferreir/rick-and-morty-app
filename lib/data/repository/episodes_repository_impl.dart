@@ -1,8 +1,9 @@
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/data/datasource/episodes_datasource.dart';
-import 'package:rickandmorty/data/mapper/episodes_mapper.dart';
-import 'package:rickandmorty/domain/entities/episodes.dart';
-import 'package:rickandmorty/domain/repository/episodes_repository.dart';
+
+import '../../domain/entities/episodes.dart';
+import '../../domain/repository/episodes_repository.dart';
+import '../datasource/episodes_datasource.dart';
+import '../mapper/episodes_mapper.dart';
 
 class EpisodesRepositoryImpl implements EpisodesRepository {
   final EpisodesDatasource episodesDatasource;

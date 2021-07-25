@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rickandmorty/presenter/shared/clip_image.dart';
-import 'package:rickandmorty/presenter/shared/item_header.dart';
+import '../shared/clip_image.dart';
+import '../shared/item_header.dart';
 
 import 'episodes_bloc.dart';
 import 'episodes_state.dart';
@@ -10,12 +10,14 @@ class EpisodesContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EpisodesBloc, EpisodesState>(builder: (context, state) {
-      if (state is Loading)
+      if (state is Loading) {
         return Center(
             key: Key('episodes_loading'), child: CircularProgressIndicator());
-      if (state is WithError)
+      }
+      if (state is WithError) {
         return Center(
             key: Key('episodes_error_message'), child: Text(state.message));
+      }
       if (state is Loaded) {
         return Padding(
             key: Key('episodes_container_loaded'),

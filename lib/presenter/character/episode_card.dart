@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/presenter/episodes/episodes_page.dart';
+import '../episodes/episodes_page.dart';
 
 class EpisodesCard extends StatelessWidget {
   final List episodes;

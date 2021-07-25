@@ -45,7 +45,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue<EpisodesState>(EpisodesStateMock());
     registerFallbackValue<EpisodesEvent>(EpisodesEventMock());
-    registerFallbackValue<Map<String, String>>(Map<String, String>());
+    registerFallbackValue<Map<String, String>>(<String, String>{});
     registerFallbackValue<Route<dynamic>>(RouteFake());
   });
 

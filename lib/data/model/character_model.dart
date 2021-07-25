@@ -10,13 +10,13 @@ class CharacterModel {
   final String image;
 
   CharacterModel.fromJSON(json)
-      : this.id = json['id'],
-        this.name = json['name'],
-        this.episode = json['episode'],
-        this.status = json['status'],
-        this.location = json['location']['name'],
-        this.origin = json['origin']['name'],
-        this.species = json['species'],
-        this.gender = json['gender'],
-        this.image = json['image'];
+      : id = json['id'],
+        name = json['name'],
+        episode = json['episode'],
+        status = json['status'],
+        location = json['location']['name'],
+        origin = json['origin']['name'],
+        species = json['species'],
+        gender = json['gender'],
+        image = json['image'];
 }

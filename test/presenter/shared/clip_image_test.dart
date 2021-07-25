@@ -16,7 +16,7 @@ void main() {
   FakeCacheManager cacheManager;
 
   setUpAll(() {
-    registerFallbackValue<Map<String, String>>(Map<String, String>());
+    registerFallbackValue<Map<String, String>>(<String, String>{});
   });
 
   setUp(() {

@@ -1,7 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/data/mapper/character_mapper.dart';
-import 'package:rickandmorty/data/model/episodes_model.dart';
-import 'package:rickandmorty/domain/entities/episodes.dart';
+
+import '../../domain/entities/episodes.dart';
+import '../model/episodes_model.dart';
+import 'character_mapper.dart';
 
 class EpisodesMapper {
   final CharacterMapper characterMapper;
@@ -15,6 +16,6 @@ class EpisodesMapper {
         episode: episodesModel.episode,
         name: episodesModel.name,
         airDate: episodesModel.airDate,
-        list: episodesModel.list.map((e) => characterMapper.handle(e)).toList(),
+        list: episodesModel.list.map(characterMapper.handle).toList(),
       );
 }

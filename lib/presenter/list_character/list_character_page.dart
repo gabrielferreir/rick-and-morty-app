@@ -21,8 +21,7 @@ class ListCharacterPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0.0),
         body: BlocProvider(
-          create: (BuildContext context) =>
-              GetIt.I.get<ListCharacterBloc>()..add(Started()),
+          create: (context) => GetIt.I.get<ListCharacterBloc>()..add(Started()),
           child: ListCharacterContent(),
         ));
   }

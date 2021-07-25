@@ -29,13 +29,13 @@ final episodeMock = Episodes(
     id: 1, episode: '1', name: 'Nome', list: [rick], airDate: '23/10/2018');
 
 void main() {
-  FakeCacheManager cacheManager = FakeCacheManager();
+  var cacheManager = FakeCacheManager();
   EpisodesBloc episodesBlocMock;
 
   setUpAll(() {
     registerFallbackValue<EpisodesEvent>(EpisodesEventMock());
     registerFallbackValue<EpisodesState>(EpisodesStateMock());
-    registerFallbackValue<Map<String, String>>(Map<String, String>());
+    registerFallbackValue<Map<String, String>>(<String, String>{});
   });
 
   setUp(() {

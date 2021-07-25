@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/domain/entities/character.dart';
+import '../../domain/entities/character.dart';
 
 @immutable
 abstract class ListCharacterState {}

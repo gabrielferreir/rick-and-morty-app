@@ -1,5 +1,5 @@
-import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/domain/repository/character_repository.dart';
+import '../entities/character.dart';
+import '../repository/character_repository.dart';
 
 mixin SearchCharactersUseCase {
   Future<List<Character>> call({int page = 1});

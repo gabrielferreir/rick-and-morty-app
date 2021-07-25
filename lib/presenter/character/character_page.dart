@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/presenter/shared/clip_image.dart';
-import 'package:rickandmorty/presenter/shared/item_header.dart';
-import 'package:rickandmorty/presenter/shared/line.dart';
+import '../../domain/entities/character.dart';
+import '../shared/clip_image.dart';
+import '../shared/item_header.dart';
+import '../shared/line.dart';
 
 import 'episode_card.dart';
 

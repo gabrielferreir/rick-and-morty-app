@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/data/model/character_model.dart';
-import 'package:rickandmorty/data/model/episodes_model.dart';
+import '../model/character_model.dart';
+import '../model/episodes_model.dart';
 
 import 'episodes_datasource.dart';
 
@@ -22,7 +22,7 @@ class EpisodesDatasourceImpl implements EpisodesDatasource {
       final character = await dio.get('/character/$id');
       return CharacterModel.fromJSON(character.data);
     }).toList();
-    final Future<List<CharacterModel>> listCharacterWait = Future.wait(list);
+    final listCharacterWait = Future.wait(list);
     final listCharacter = await listCharacterWait;
     final model = EpisodesModel.fromJSON(result);
     model.list = listCharacter;

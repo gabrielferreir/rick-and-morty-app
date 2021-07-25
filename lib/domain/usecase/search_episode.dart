@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/domain/entities/episodes.dart';
-import 'package:rickandmorty/domain/repository/episodes_repository.dart';
+import '../entities/episodes.dart';
+import '../repository/episodes_repository.dart';
 
 mixin SearchEpisodeUseCase {
   Future<Episodes> call({@required int id});

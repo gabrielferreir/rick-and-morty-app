@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/repository/character_repository.dart';
 import 'package:rickandmorty/domain/usecase/search_characters.dart';
 
@@ -13,7 +13,7 @@ void main() {
   group('CharacterRepository', () {
     test('Should be return a list of characters', () async {
       await searchCharacters.call();
-      verify(characterRepositoryMock.get()).called(1);
+      verify(characterRepositoryMock.get).called(1);
     });
   });
 }

@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
 import 'package:rickandmorty/domain/usecase/search_characters.dart';
 import 'package:rickandmorty/presenter/list_character/list_character_bloc.dart';
@@ -266,7 +266,7 @@ void main() {
     blocTest(
       'Should be search characters',
       build: () {
-        when(searchCharactersUseCaseMock.call()).thenAnswer((_) async => []);
+        when(searchCharactersUseCaseMock.call).thenAnswer((_) async => []);
         return listCharacterBloc;
       },
       act: (bloc) async => bloc..add(Started()),
@@ -276,8 +276,10 @@ void main() {
     blocTest(
       'Should be find a dioError when search characters',
       build: () {
-        when(searchCharactersUseCaseMock.call())
-            .thenThrow(DioError(response: Response(data: 'Error :)')));
+        when(searchCharactersUseCaseMock.call).thenThrow(DioError(
+            requestOptions: RequestOptions(path: ''),
+            response: Response(
+                data: 'Error :)', requestOptions: RequestOptions(path: ''))));
         return listCharacterBloc;
       },
       act: (bloc) async => bloc..add(Started()),
@@ -287,8 +289,7 @@ void main() {
     blocTest(
       'Should be find a exception when search characters',
       build: () {
-        when(searchCharactersUseCaseMock.call())
-            .thenThrow(Exception('Error :)'));
+        when(searchCharactersUseCaseMock.call).thenThrow(Exception('Error :)'));
         return listCharacterBloc;
       },
       act: (bloc) async => bloc..add(Started()),
@@ -298,9 +299,9 @@ void main() {
     blocTest(
       'Should be search characters paginate',
       build: () {
-        when(searchCharactersUseCaseMock.call(page: 1))
+        when(() => searchCharactersUseCaseMock.call(page: 1))
             .thenAnswer((_) async => listCharacterMock);
-        when(searchCharactersUseCaseMock.call(page: 2))
+        when(() => searchCharactersUseCaseMock.call(page: 2))
             .thenAnswer((_) async => listCharacterMock2);
         return listCharacterBloc;
       },
@@ -318,10 +319,14 @@ void main() {
     blocTest(
       'Should be find a dioError when search characters paginate',
       build: () {
-        when(searchCharactersUseCaseMock.call(page: 1))
+        when(() => searchCharactersUseCaseMock.call(page: 1))
             .thenAnswer((_) async => listCharacterMock);
-        when(searchCharactersUseCaseMock.call(page: 2))
-            .thenThrow(DioError(response: Response(data: 'Error :)')));
+        when(() => searchCharactersUseCaseMock.call(page: 2)).thenThrow(
+            DioError(
+                requestOptions: RequestOptions(path: ''),
+                response: Response(
+                    data: 'Error :)',
+                    requestOptions: RequestOptions(path: ''))));
         return listCharacterBloc;
       },
       act: (bloc) async => bloc..add(Started())..add(Fetch(page: 2)),
@@ -335,9 +340,9 @@ void main() {
     blocTest(
       'Should be find a exception when search characters',
       build: () {
-        when(searchCharactersUseCaseMock.call(page: 1))
+        when(() => searchCharactersUseCaseMock.call(page: 1))
             .thenAnswer((_) async => listCharacterMock);
-        when(searchCharactersUseCaseMock.call(page: 2))
+        when(() => searchCharactersUseCaseMock.call(page: 2))
             .thenThrow(Exception('Error :)'));
         return listCharacterBloc;
       },

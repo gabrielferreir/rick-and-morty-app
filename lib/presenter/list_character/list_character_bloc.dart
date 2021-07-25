@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rickandmorty/domain/usecase/search_characters.dart';
+import '../../domain/usecase/search_characters.dart';
 
 import 'list_character_event.dart';
 import 'list_character_state.dart';
@@ -25,7 +25,7 @@ class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
             list: list, page: 1, finish: list.length < 20, loading: false);
       } on DioError catch (e) {
         yield WithError(message: e.response.data);
-      } catch (e) {
+      } on Exception {
         yield WithError(message: 'Internal server error');
       }
     }
@@ -41,7 +41,7 @@ class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
         ], page: event.page, finish: newList.length < 20, loading: false);
       } on DioError catch (e) {
         yield WithError(message: e.response.data);
-      } catch (e) {
+      } on Exception {
         yield WithError(message: 'Internal server error');
       }
     }

@@ -1,5 +1,5 @@
-import 'package:rickandmorty/data/model/character_model.dart';
-import 'package:rickandmorty/domain/entities/character.dart';
+import '../../domain/entities/character.dart';
+import '../model/character_model.dart';
 
 class CharacterMapper {
   Character handle(CharacterModel characterModel) => Character(

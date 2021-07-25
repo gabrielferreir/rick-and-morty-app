@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rickandmorty/domain/entities/character.dart';
-import 'package:rickandmorty/presenter/character/character_page.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../domain/entities/character.dart';
+import '../character/character_page.dart';
 
 class ItemGrid extends StatelessWidget {
   final Character character;
