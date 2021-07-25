@@ -7,7 +7,6 @@ import 'dart:typed_data';
 
 import 'package:file/memory.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:meta/meta.dart';
 import 'package:mocktail/mocktail.dart';
 
 class FakeCacheManager extends Mock implements CacheManager {
@@ -22,11 +21,11 @@ class FakeCacheManager extends Mock implements CacheManager {
             uri: Uri.parse(url)));
   }
 
-  ExpectedData returns(
+  Future<ExpectedData> returns(
     String url,
     List<int> imageData, {
-    Duration delayBetweenChunks,
-  }) {
+    Duration delayBetweenChunks = const Duration(milliseconds: 10),
+  }) async {
     const chunkSize = 8;
     final chunks = <Uint8List>[
       for (int offset = 0; offset < imageData.length; offset += chunkSize)
@@ -62,9 +61,7 @@ class FakeCacheManager extends Mock implements CacheManager {
     var downloaded = 0;
     for (var chunk in chunks) {
       downloaded += chunk.length;
-      if (delayBetweenChunks != null) {
-        await Future.delayed(delayBetweenChunks);
-      }
+      // await Future.delayed(delayBetweenChunks);
       yield DownloadProgress(url, totalSize, downloaded);
     }
     var file = MemoryFileSystem().systemTempDirectory.childFile('test.jpg');
@@ -78,7 +75,7 @@ class FakeImageCacheManager extends Mock implements ImageCacheManager {
   ExpectedData returns(
     String url,
     List<int> imageData, {
-    Duration delayBetweenChunks,
+    required Duration delayBetweenChunks,
   }) {
     const chunkSize = 8;
     final chunks = <Uint8List>[
@@ -117,9 +114,7 @@ class FakeImageCacheManager extends Mock implements ImageCacheManager {
     var downloaded = 0;
     for (var chunk in chunks) {
       downloaded += chunk.length;
-      if (delayBetweenChunks != null) {
-        await Future.delayed(delayBetweenChunks);
-      }
+      await Future.delayed(delayBetweenChunks);
       yield DownloadProgress(url, totalSize, downloaded);
     }
     var file = MemoryFileSystem().systemTempDirectory.childFile('test.jpg');
@@ -135,8 +130,8 @@ class ExpectedData {
   final int chunkSize;
 
   const ExpectedData({
-    @required this.chunks,
-    @required this.totalSize,
-    @required this.chunkSize,
+    required this.chunks,
+    required this.totalSize,
+    required this.chunkSize,
   });
 }

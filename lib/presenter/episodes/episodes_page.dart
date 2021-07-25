@@ -9,7 +9,7 @@ import 'episodes_event.dart';
 class EpisodesPage extends StatelessWidget {
   final int episode;
 
-  EpisodesPage({@required this.episode});
+  EpisodesPage({required this.episode});
 
   @override
   Widget build(BuildContext context) {

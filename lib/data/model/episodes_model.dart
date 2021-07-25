@@ -5,7 +5,7 @@ class EpisodesModel {
   final String name;
   final String episode;
   final String airDate;
-  List<CharacterModel> list;
+  List<CharacterModel>? list;
 
   EpisodesModel.fromJSON(json)
       : id = json['id'],

@@ -10,7 +10,7 @@ import '../character/character_page.dart';
 class ItemGrid extends StatelessWidget {
   final Character character;
 
-  ItemGrid({@required this.character});
+  ItemGrid({required this.character});
 
   void _onTap(BuildContext context) => Navigator.push(
       context,
@@ -33,8 +33,8 @@ class ItemGrid extends StatelessWidget {
                           cacheManager: GetIt.instance.get<BaseCacheManager>(),
                           imageUrl: character.image,
                           placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
                               child: Container(color: Colors.white)),
                           errorWidget: (context, url, error) {
                             print('errorWidget');

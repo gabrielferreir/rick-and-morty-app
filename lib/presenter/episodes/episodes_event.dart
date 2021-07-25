@@ -9,7 +9,7 @@ abstract class EpisodesEvent extends Equatable {
 class Started extends EpisodesEvent {
   final int id;
 
-  const Started({@required this.id});
+  const Started({required this.id});
 
   @override
   List<Object> get props => [id];

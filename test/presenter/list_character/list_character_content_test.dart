@@ -103,8 +103,8 @@ final rick20 = [
 ];
 
 void main() {
-  FakeCacheManager cacheManager;
-  ListCharacterBloc listCharacterBlocMock;
+  late FakeCacheManager cacheManager;
+  late ListCharacterBloc listCharacterBlocMock;
 
   setUpAll(() {
     registerFallbackValue<ListCharacterEvent>(ListCharacterEventMock());

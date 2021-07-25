@@ -40,8 +40,8 @@ final _imageErrorKey = Key('item_grid_image_error');
 final _inkwellKey = Key('item_grid_inkwell');
 
 void main() {
-  FakeCacheManager cacheManager;
-  EpisodesBlocMock episodesBloc;
+  late FakeCacheManager cacheManager;
+  late EpisodesBlocMock episodesBloc;
 
   setUpAll(() {
     registerFallbackValue<EpisodesState>(EpisodesStateMock());

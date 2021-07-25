@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import '../../domain/usecase/search_characters.dart';
 
 import 'list_character_event.dart';
@@ -11,8 +10,7 @@ import 'list_character_state.dart';
 class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
   final SearchCharactersUseCase searchCharactersUseCase;
 
-  ListCharacterBloc({@required this.searchCharactersUseCase})
-      : super(Loading());
+  ListCharacterBloc({required this.searchCharactersUseCase}) : super(Loading());
 
   @override
   Stream<ListCharacterState> mapEventToState(
@@ -24,7 +22,7 @@ class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
         yield Loaded(
             list: list, page: 1, finish: list.length < 20, loading: false);
       } on DioError catch (e) {
-        yield WithError(message: e.response.data);
+        yield WithError(message: e.response!.data);
       } on Exception {
         yield WithError(message: 'Internal server error');
       }
@@ -40,7 +38,7 @@ class ListCharacterBloc extends Bloc<ListCharacterEvent, ListCharacterState> {
           ...newList,
         ], page: event.page, finish: newList.length < 20, loading: false);
       } on DioError catch (e) {
-        yield WithError(message: e.response.data);
+        yield WithError(message: e.response!.data);
       } on Exception {
         yield WithError(message: 'Internal server error');
       }

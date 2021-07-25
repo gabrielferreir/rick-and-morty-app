@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import '../../domain/usecase/search_episode.dart';
 
+import '../../domain/usecase/search_episode.dart';
 import 'episodes_event.dart';
 import 'episodes_state.dart';
 
 class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
   final SearchEpisodeUseCase searchEpisodeUseCase;
 
-  EpisodesBloc({@required this.searchEpisodeUseCase}) : super(Loading());
+  EpisodesBloc({required this.searchEpisodeUseCase}) : super(Loading());
 
   @override
   Stream<EpisodesState> mapEventToState(

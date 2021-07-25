@@ -9,7 +9,7 @@ class ClipImage extends StatelessWidget {
   final double size;
 
   ClipImage({
-    @required this.url,
+    required this.url,
     this.size = 64,
   });
 
@@ -24,8 +24,8 @@ class ClipImage extends StatelessWidget {
                 cacheManager: GetIt.instance.get<BaseCacheManager>(),
                 imageUrl: url,
                 placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
                     child: Container(color: Colors.white)),
                 errorWidget: (context, url, error) =>
                     Icon(Icons.error, key: Key('clip_image_error')))));

@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 import '../../domain/entities/episodes.dart';
 import '../../domain/repository/episodes_repository.dart';
@@ -10,12 +9,12 @@ class EpisodesRepositoryImpl implements EpisodesRepository {
   final EpisodesMapper episodesMapper;
 
   EpisodesRepositoryImpl({
-    @required this.episodesDatasource,
-    @required this.episodesMapper,
+    required this.episodesDatasource,
+    required this.episodesMapper,
   });
 
   Future<Episodes> get({
-    @required int id,
+    required int id,
   }) async {
     final episodesModel = await episodesDatasource.get(id: id);
     return episodesMapper.handle(episodesModel);

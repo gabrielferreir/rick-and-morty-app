@@ -17,7 +17,7 @@ class ListCharacterStateMock extends Fake implements ListCharacterState {}
 class ListCharacterEventMock extends Fake implements ListCharacterEvent {}
 
 void main() {
-  ListCharacterBloc listCharacterBloc;
+  late ListCharacterBloc listCharacterBloc;
 
   setUpAll(() {
     registerFallbackValue<ListCharacterEvent>(ListCharacterEventMock());
@@ -35,11 +35,13 @@ void main() {
 
   group('ListCharacterPage', () {
     testWidgets('Render ListCharacterPage', (tester) async {
+      when(() => listCharacterBloc.state).thenReturn(Loaded(list: []));
       await tester.pumpWidget(MaterialApp(home: ListCharacterPage()));
       expect(find.byType(ListCharacterPage), findsOneWidget);
     });
 
     testWidgets('Should be call event Started', (tester) async {
+      when(() => listCharacterBloc.state).thenReturn(Loaded(list: []));
       await tester.pumpWidget(MaterialApp(home: ListCharacterPage()));
       verify(() => listCharacterBloc.add(const Started())).called(1);
     });

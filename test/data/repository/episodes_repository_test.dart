@@ -18,6 +18,7 @@ void main() {
   final episodesRepository = EpisodesRepositoryImpl(
       episodesDatasource: episodesDatasourceMock,
       episodesMapper: EpisodesMapper(characterMapper: CharacterMapper()));
+
   group('EpisodesRepository', () {
     test('Should be return a episode', () async {
       final fileEpisodes = File('test/data/mock/episodes.json');

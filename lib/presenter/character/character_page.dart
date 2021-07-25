@@ -10,7 +10,7 @@ class CharacterPage extends StatelessWidget {
   final Character character;
 
   CharacterPage({
-    @required this.character,
+    required this.character,
   });
 
   @override

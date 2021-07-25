@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 import '../../domain/entities/episodes.dart';
 import '../model/episodes_model.dart';
@@ -8,7 +7,7 @@ class EpisodesMapper {
   final CharacterMapper characterMapper;
 
   EpisodesMapper({
-    @required this.characterMapper,
+    required this.characterMapper,
   });
 
   Episodes handle(EpisodesModel episodesModel) => Episodes(
@@ -16,6 +15,6 @@ class EpisodesMapper {
         episode: episodesModel.episode,
         name: episodesModel.name,
         airDate: episodesModel.airDate,
-        list: episodesModel.list.map(characterMapper.handle).toList(),
+        list: episodesModel.list!.map(characterMapper.handle).toList(),
       );
 }

@@ -8,9 +8,7 @@ mixin SearchCharactersUseCase {
 class SearchCharactersUseCaseImpl implements SearchCharactersUseCase {
   final CharacterRepository characterRepository;
 
-  const SearchCharactersUseCaseImpl({
-    this.characterRepository,
-  });
+  const SearchCharactersUseCaseImpl({required this.characterRepository});
 
   @override
   Future<List<Character>> call({int page = 1}) async {

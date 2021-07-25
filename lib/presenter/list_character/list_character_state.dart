@@ -11,7 +11,7 @@ class WithError extends Equatable implements ListCharacterState {
   final String message;
 
   WithError({
-    @required this.message,
+    required this.message,
   });
 
   @override
@@ -25,7 +25,7 @@ class Loaded extends Equatable implements ListCharacterState {
   final int page;
 
   Loaded(
-      {@required this.list,
+      {required this.list,
       this.finish = false,
       this.loading = false,
       this.page = 1});
@@ -34,9 +34,9 @@ class Loaded extends Equatable implements ListCharacterState {
   List get props => [list, finish, loading, page];
 
   Loaded copyWith(
-          {List<Character> list, bool finish, bool loading, int page}) =>
+          {List<Character>? list, bool? finish, bool? loading, int? page}) =>
       Loaded(
-        loading: loading,
+        loading: loading ?? this.loading,
         finish: finish ?? this.finish,
         page: page ?? this.page,
         list: list ?? this.list,

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import '../model/character_model.dart';
 import '../model/episodes_model.dart';
 
@@ -8,10 +7,10 @@ import 'episodes_datasource.dart';
 class EpisodesDatasourceImpl implements EpisodesDatasource {
   final Dio dio;
 
-  EpisodesDatasourceImpl({@required this.dio});
+  EpisodesDatasourceImpl({required this.dio});
 
   Future<EpisodesModel> get({
-    @required int id,
+    required int id,
   }) async {
     final res = await dio.get('/episode/$id');
     Map result = res.data;

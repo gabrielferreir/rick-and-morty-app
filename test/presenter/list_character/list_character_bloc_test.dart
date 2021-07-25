@@ -249,8 +249,8 @@ final listCharacterMock2 = [
 
 void main() {
   group('ListCharacterBloc', () {
-    ListCharacterBloc listCharacterBloc;
-    SearchCharactersUseCaseMock searchCharactersUseCaseMock;
+    late ListCharacterBloc listCharacterBloc;
+    late SearchCharactersUseCaseMock searchCharactersUseCaseMock;
 
     setUp(() {
       searchCharactersUseCaseMock = SearchCharactersUseCaseMock();
@@ -269,7 +269,7 @@ void main() {
         when(searchCharactersUseCaseMock.call).thenAnswer((_) async => []);
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started()),
+      act: (bloc) async => (bloc as ListCharacterBloc)..add(Started()),
       expect: () => [Loaded(list: [], finish: true, loading: false, page: 1)],
     );
 
@@ -282,7 +282,7 @@ void main() {
                 data: 'Error :)', requestOptions: RequestOptions(path: ''))));
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started()),
+      act: (bloc) async => (bloc as ListCharacterBloc)..add(Started()),
       expect: () => [WithError(message: 'Error :)')],
     );
 
@@ -292,7 +292,7 @@ void main() {
         when(searchCharactersUseCaseMock.call).thenThrow(Exception('Error :)'));
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started()),
+      act: (bloc) async => (bloc as ListCharacterBloc)..add(Started()),
       expect: () => [WithError(message: 'Internal server error')],
     );
 
@@ -305,7 +305,8 @@ void main() {
             .thenAnswer((_) async => listCharacterMock2);
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started())..add(Fetch(page: 2)),
+      act: (bloc) async =>
+          (bloc as ListCharacterBloc)..add(Started())..add(Fetch(page: 2)),
       expect: () => [
         Loaded(list: listCharacterMock, finish: false, loading: false, page: 1),
         Loaded(list: listCharacterMock, finish: false, loading: true, page: 1),
@@ -329,7 +330,8 @@ void main() {
                     requestOptions: RequestOptions(path: ''))));
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started())..add(Fetch(page: 2)),
+      act: (bloc) async =>
+          (bloc as ListCharacterBloc)..add(Started())..add(Fetch(page: 2)),
       expect: () => [
         Loaded(list: listCharacterMock, finish: false, loading: false, page: 1),
         Loaded(list: listCharacterMock, finish: false, loading: true, page: 1),
@@ -346,7 +348,8 @@ void main() {
             .thenThrow(Exception('Error :)'));
         return listCharacterBloc;
       },
-      act: (bloc) async => bloc..add(Started())..add(Fetch(page: 2)),
+      act: (bloc) async =>
+          (bloc as ListCharacterBloc)..add(Started())..add(Fetch(page: 2)),
       expect: () => [
         Loaded(list: listCharacterMock, finish: false, loading: false, page: 1),
         Loaded(list: listCharacterMock, finish: false, loading: true, page: 1),

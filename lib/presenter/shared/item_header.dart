@@ -4,19 +4,19 @@ class ItemHeader extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  ItemHeader({@required this.title, @required this.subtitle});
+  ItemHeader({required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(title ?? '',
+        Text(title,
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87)),
-        Text(subtitle ?? '',
+        Text(subtitle,
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,

@@ -17,9 +17,9 @@ import '../character/character_page_test.dart';
 class EpisodesBlocMock extends MockBloc<EpisodesEvent, EpisodesState>
     implements EpisodesBloc {}
 
-class EpisodesStateMock extends Fake implements EpisodesState {}
+class EpisodesStateMock extends Mock implements EpisodesState {}
 
-class EpisodesEventMock extends Fake implements EpisodesEvent {}
+class EpisodesEventMock extends Mock implements EpisodesEvent {}
 
 const _loadingKey = Key('episodes_loading');
 const _errorMessageKey = Key('episodes_error_message');
@@ -30,25 +30,24 @@ final episodeMock = Episodes(
 
 void main() {
   var cacheManager = FakeCacheManager();
-  EpisodesBloc episodesBlocMock;
-
-  setUpAll(() {
-    registerFallbackValue<EpisodesEvent>(EpisodesEventMock());
-    registerFallbackValue<EpisodesState>(EpisodesStateMock());
-    registerFallbackValue<Map<String, String>>(<String, String>{});
-  });
-
-  setUp(() {
-    GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
-    episodesBlocMock = EpisodesBlocMock();
-  });
-
-  tearDown(() async {
-    await cacheManager.emptyCache();
-    GetIt.I.unregister<BaseCacheManager>();
-  });
+  late EpisodesBloc episodesBlocMock;
 
   group('EpisodesContent', () {
+    setUpAll(() {
+      registerFallbackValue<EpisodesEvent>(EpisodesEventMock());
+      registerFallbackValue<EpisodesState>(EpisodesStateMock());
+      registerFallbackValue<Map<String, String>>(<String, String>{});
+    });
+
+    setUp(() {
+      GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
+      episodesBlocMock = EpisodesBlocMock();
+    });
+
+    tearDown(() async {
+      GetIt.I.unregister<BaseCacheManager>();
+    });
+
     testWidgets('render loading', (tester) async {
       when(() => episodesBlocMock.state).thenReturn(Loading());
       await tester.pumpWidget(MaterialApp(

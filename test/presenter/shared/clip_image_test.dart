@@ -13,7 +13,7 @@ class RouteFake extends Fake implements Route<dynamic> {}
 final _imageError = Key('clip_image_error');
 
 void main() {
-  FakeCacheManager cacheManager;
+  late FakeCacheManager cacheManager;
 
   setUpAll(() {
     registerFallbackValue<Map<String, String>>(<String, String>{});

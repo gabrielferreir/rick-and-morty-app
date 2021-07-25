@@ -83,8 +83,8 @@ class _ListCharacterContentState extends State<ListCharacterContent> {
                               return state.finish
                                   ? Container()
                                   : Shimmer.fromColors(
-                                      baseColor: Colors.grey[300],
-                                      highlightColor: Colors.grey[100],
+                                      baseColor: Colors.grey.shade300,
+                                      highlightColor: Colors.grey.shade100,
                                       child: Container(color: Colors.white));
                             }
                             return ItemGrid(character: state.list[index]);

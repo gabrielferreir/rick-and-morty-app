@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
-import '../episodes/episodes_page.dart';
 
 class EpisodesCard extends StatelessWidget {
   final List episodes;
   static final RegExp numberRegExp = RegExp(r'\d+');
 
   EpisodesCard({
-    @required this.episodes,
+    required this.episodes,
   });
 
   _openBottomSheet(
     BuildContext context, {
-    @required String episode,
+    required String episode,
   }) {
     showModalBottomSheet(
+        useRootNavigator: true,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32.0),
-          topRight: Radius.circular(32.0),
-        )),
+                topLeft: Radius.circular(32.0),
+                topRight: Radius.circular(32.0))),
         elevation: 2.0,
         context: context,
-        builder: (context) => Container(
-              height: 220.0,
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: EpisodesPage(
-                        episode: int.parse(numberRegExp.stringMatch(episode))),
-                  )
-                ],
-              ),
-            ));
+        builder: (context) => Container()
+        // Container(
+        // height: 220.0,
+        // child: Column(children: <Widget>[
+        //   Expanded(
+        //       child: EpisodesPage(
+        //           episode: int.parse(numberRegExp.stringMatch(episode)!)))
+        // ]))
+        );
   }
 
   @override

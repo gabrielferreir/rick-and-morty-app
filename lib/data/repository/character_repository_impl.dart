@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 import '../../domain/entities/character.dart';
 import '../../domain/repository/character_repository.dart';
@@ -10,8 +9,8 @@ class CharacterRepositoryImpl implements CharacterRepository {
   final CharacterMapper characterMapper;
 
   CharacterRepositoryImpl({
-    @required this.characterDatasource,
-    @required this.characterMapper,
+    required this.characterDatasource,
+    required this.characterMapper,
   });
 
   Future<List<Character>> get({int page = 1}) async {

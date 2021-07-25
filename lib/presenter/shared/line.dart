@@ -5,7 +5,7 @@ class Line extends StatelessWidget {
   final String subtitle;
   final IconData icon;
 
-  Line({@required this.title, @required this.subtitle, @required this.icon});
+  Line({required this.title, required this.subtitle, required this.icon});
 
   @override
   Widget build(BuildContext context) {

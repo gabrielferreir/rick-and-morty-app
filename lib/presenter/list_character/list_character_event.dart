@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class ListCharacterEvent extends Equatable {
   const ListCharacterEvent();
@@ -15,7 +14,7 @@ class Started extends ListCharacterEvent {
 class Fetch extends ListCharacterEvent {
   final int page;
 
-  const Fetch({@required this.page});
+  const Fetch({required this.page});
 
   @override
   List<Object> get props => [page];

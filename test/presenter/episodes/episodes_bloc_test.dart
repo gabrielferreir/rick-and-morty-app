@@ -17,8 +17,8 @@ final episodeMock = Episodes(
 
 void main() {
   group('ListCharacterBloc', () {
-    EpisodesBloc episodesBloc;
-    SearchEpisodeUseCaseMock searchEpisodeUseCaseMock;
+    late EpisodesBloc episodesBloc;
+    late SearchEpisodeUseCaseMock searchEpisodeUseCaseMock;
 
     setUp(() {
       searchEpisodeUseCaseMock = SearchEpisodeUseCaseMock();
@@ -38,7 +38,7 @@ void main() {
             .thenAnswer((_) async => episodeMock);
         return episodesBloc;
       },
-      act: (bloc) async => bloc..add(Started(id: 1)),
+      act: (bloc) async => (bloc as EpisodesBloc)..add(Started(id: 1)),
       expect: () => [Loaded(episodes: episodeMock)],
     );
 
@@ -52,7 +52,7 @@ void main() {
                   requestOptions: RequestOptions(path: '')));
           return episodesBloc;
         },
-        act: (bloc) async => bloc..add(Started(id: 1)),
+        act: (bloc) async => (bloc as EpisodesBloc)..add(Started(id: 1)),
         expect: () => [WithError(message: 'Internal server error')]);
   });
 }
