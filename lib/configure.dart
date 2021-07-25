@@ -18,7 +18,7 @@ Future<void> configure() async {
 
   GetIt.I.registerSingleton<BaseCacheManager>(DefaultCacheManager());
 
-  GetIt.I.registerFactory<ListCharacterBloc>(() => ListCharacterBloc(
+  GetIt.I.registerFactory<ListCharacterCubit>(() => ListCharacterCubit(
       searchCharactersUseCase: SearchCharactersUseCaseImpl(
           characterRepository: CharacterRepositoryImpl(
               characterMapper: CharacterMapper(),

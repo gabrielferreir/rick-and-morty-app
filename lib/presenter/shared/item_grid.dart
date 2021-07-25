@@ -15,9 +15,7 @@ class ItemGrid extends StatelessWidget {
   void _onTap(BuildContext context) => Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CharacterPage(
-                character: character,
-              )));
+          builder: (context) => CharacterPage(character: character)));
 
   @override
   Widget build(BuildContext context) {
