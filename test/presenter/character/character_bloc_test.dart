@@ -27,8 +27,7 @@ void main() {
     });
 
     test('Initial state is loading', () {
-      expect(characterCubit.state.toString(),
-          CharacterState(isLoading: true).toString());
+      expect(characterCubit.state, CharacterState(isLoading: true));
     });
 
     blocTest('Should be a favorite',
