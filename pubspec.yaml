@@ -18,6 +18,7 @@ dependencies:
   cached_network_image: 3.0.0
   flutter_cache_manager: 3.1.2
   get_it: 6.0.0
+  shared_preferences: 2.0.6
 
 dev_dependencies:
   flutter_driver:
