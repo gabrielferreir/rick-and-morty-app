@@ -20,12 +20,23 @@ class FavoriteDatasourceImpl implements FavoriteDatasource {
   }
 
   @override
-  Future<void> save({required int id}) async {
+  Future<bool> save({required int id}) async {
     final list = await getAll();
-    final listMapped = [
-      ...list.map((e) => e.toString()),
-      id.toString(),
-    ];
-    await sharedPreferences.setStringList('favorites', listMapped);
+    var newList = [];
+    var isAdded = false;
+    if (list.contains(id)) {
+      isAdded = false;
+      newList = list.where((e) => e != id).toList();
+    } else {
+      isAdded = true;
+      newList = [
+        ...list.map((e) => e.toString()),
+        id.toString(),
+      ];
+    }
+    await sharedPreferences.setStringList(
+        'favorites', newList.map((e) => e.toString()).toList());
+
+    return isAdded;
   }
 }

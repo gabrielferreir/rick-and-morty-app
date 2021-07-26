@@ -10,7 +10,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
   Future<List<int>> getAll() => favoriteDatasource.getAll();
 
-  Future<void> save({required int id}) => favoriteDatasource.save(id: id);
+  Future<bool> save({required int id}) => favoriteDatasource.save(id: id);
 
   Future<bool> isFavorite({required int id}) =>
       favoriteDatasource.isFavorite(id: id);

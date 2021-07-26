@@ -1,7 +1,7 @@
 import '../repository/favorite_repository.dart';
 
 abstract class CharacterSaveFavoriteUseCase {
-  Future<void> call({required int id});
+  Future<bool> call({required int id});
 }
 
 class CharacterSaveFavoriteUseCaseImpl implements CharacterSaveFavoriteUseCase {
@@ -10,5 +10,5 @@ class CharacterSaveFavoriteUseCaseImpl implements CharacterSaveFavoriteUseCase {
   const CharacterSaveFavoriteUseCaseImpl({required this.favoriteRepository});
 
   @override
-  Future<void> call({required int id}) => favoriteRepository.save(id: id);
+  Future<bool> call({required int id}) => favoriteRepository.save(id: id);
 }
