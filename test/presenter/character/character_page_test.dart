@@ -6,7 +6,9 @@ import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rickandmorty/domain/entities/character.dart';
 import 'package:rickandmorty/domain/entities/episodes.dart';
+import 'package:rickandmorty/presenter/character/character_bloc.dart';
 import 'package:rickandmorty/presenter/character/character_page.dart';
+import 'package:rickandmorty/presenter/character/character_state.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_bloc.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_event.dart';
 import 'package:rickandmorty/presenter/episodes/episodes_state.dart';
@@ -19,7 +21,12 @@ class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 class EpisodesBlocMock extends MockBloc<EpisodesEvent, EpisodesState>
     implements EpisodesBloc {}
 
+class CharacterCubitMock extends MockCubit<CharacterState>
+    implements CharacterCubit {}
+
 class EpisodesStateMock extends Fake implements EpisodesState {}
+
+class CharacterStateMock extends Fake implements CharacterState {}
 
 class EpisodesEventMock extends Fake implements EpisodesEvent {}
 
@@ -37,17 +44,20 @@ final rick = Character(
       "https://rickandmortyapi.com/api/episode/1",
     ],
     image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg');
+
 final _episodeCardKey =
     Key('episode_card_ep_https://rickandmortyapi.com/api/episode/1');
 
 void main() {
   late FakeCacheManager cacheManager;
-  late EpisodesBlocMock episodesBloc;
+  late EpisodesBloc episodesBloc;
+  late CharacterCubit characterCubitMock;
 
   group('CharacterPage', () {
     setUpAll(() {
       registerFallbackValue<EpisodesState>(EpisodesStateMock());
       registerFallbackValue<EpisodesEvent>(EpisodesEventMock());
+      registerFallbackValue<CharacterState>(CharacterStateMock());
       registerFallbackValue<Map<String, String>>(<String, String>{});
       registerFallbackValue<Route<dynamic>>(RouteFake());
     });
@@ -55,24 +65,27 @@ void main() {
     setUp(() {
       cacheManager = FakeCacheManager();
       episodesBloc = EpisodesBlocMock();
+      characterCubitMock = CharacterCubitMock();
       GetIt.I.registerSingleton<BaseCacheManager>(cacheManager);
       GetIt.I.registerFactory<EpisodesBloc>(() => episodesBloc);
+      GetIt.I.registerFactory<CharacterCubit>(() => characterCubitMock);
     });
 
     tearDown(() {
       GetIt.I.unregister<BaseCacheManager>();
       GetIt.I.unregister<EpisodesBloc>();
-      // PaintingBinding.instance?.imageCache?.clear();
-      // PaintingBinding.instance?.imageCache?.clearLiveImages();
+      GetIt.I.unregister<CharacterCubit>();
     });
 
     testWidgets('Render CharacterPage', (tester) async {
+      when(() => characterCubitMock.state).thenReturn(CharacterState());
       await tester
           .pumpWidget(MaterialApp(home: CharacterPage(character: rick)));
       expect(find.byType(CharacterPage), findsOneWidget);
     });
 
     testWidgets('Should open bottom sheet', (tester) async {
+      when(() => characterCubitMock.state).thenReturn(CharacterState());
       when(() => episodesBloc.state).thenReturn(Loaded(
           episodes:
               Episodes(id: 1, episode: '1', airDate: '', name: '', list: [])));
